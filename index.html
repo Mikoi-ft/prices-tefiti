@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Te Fiti — Прайс-лист</title>
+  <link rel="icon" href="assets/logo.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="app">
+    <section id="landing" class="landing">
+      <img src="assets/logo.svg" alt="Te Fiti" class="logo">
+      <h1 class="brand">Te Fiti</h1>
+      <p class="subtitle">Massage & SPA — wellness salon</p>
+    </section>
+
+    <section id="viewer" class="viewer hidden" aria-live="polite">
+      <div class="viewer-top">
+        <button id="backBtn" class="btn back" aria-label="назад к языкам">←</button>
+        <div class="title-wrap">
+          <h2 id="title" class="title"></h2>
+          <div id="pageIndicator" class="indicator">1/2</div>
+        </div>
+        <div class="spacer"></div>
+      </div>
+      <div class="canvas-wrap" id="canvasWrap">
+        <img id="pageImage" alt="Прайс-лист" />
+        <button id="prev" class="btn nav left" aria-label="предыдущая страница">◀</button>
+        <button id="next" class="btn nav right" aria-label="следующая страница">▶</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="langbar" role="tablist" aria-label="Выбор языка">
+    <button class="lang" data-lang="ky" role="tab">Кыргызча</button>
+    <button class="lang" data-lang="ru" role="tab">Русский</button>
+    <button class="lang" data-lang="en" role="tab">English</button>
+    <button class="lang" data-lang="zh" role="tab">中文</button>
+    <button class="lang" data-lang="ar" role="tab" dir="rtl">العربية</button>
+  </nav>
+
+  <script src="data.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

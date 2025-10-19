@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 256">
+  <defs><style>.a{fill:none;stroke:#111;stroke-width:10;stroke-linecap:round;stroke-linejoin:round}</style></defs>
+  <path class="a" d="M60,200 C140,120 220,120 300,200" />
+  <path class="a" d="M120,200 C200,120 280,120 360,200" />
+  <path class="a" d="M180,200 C220,120 260,120 300,200" />
+  <text x="330" y="130" font-size="42" font-family="Georgia, serif" fill="#111">Te Fiti</text>
+</svg>
