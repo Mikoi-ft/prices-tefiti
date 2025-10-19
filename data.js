@@ -1,11 +1,11 @@
 // Place images into assets/prices/<lang>/1.jpg, 2.jpg, ...
 // Two pages per language by default; update `count` if needed.
 window.PRICE_PAGES = {
-  ky: { count: 2, ext: "jpg", label: "Кыргызча" },
-  ru: { count: 2, ext: "jpg", label: "Русский" },
-  en: { count: 2, ext: "jpg", label: "English" },
-  zh: { count: 2, ext: "jpg", label: "中文" },
-  ar: { count: 2, ext: "jpg", label: "العربية", rtl: true }
+  ky: { count: 2, ext: "pdf", label: "Кыргызча" },
+  ru: { count: 2, ext: "pdf", label: "Русский" },
+  en: { count: 2, ext: "pdf", label: "English" },
+  zh: { count: 2, ext: "pdf", label: "中文" },
+  ar: { count: 2, ext: "pdf", label: "العربية", rtl: true }
 };
 
 // Set to true if you want to use per-language PDFs placed at assets/prices/<lang>.pdf
