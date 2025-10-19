@@ -3,34 +3,69 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Te Fiti — Прайс-лист</title>
   <link rel="icon" href="assets/logo.svg" />
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root {
+      --bg:#0b1f17;
+      --text:#ecf8f2;
+      --card:#123528;
+      --accent:#2fd8a0;
+      --border:rgba(255,255,255,0.1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:32px 16px;
+    }
+    .logo{
+      width:min(160px,45vw);
+      margin-bottom:40px;
+      filter:drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+    .lang-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:16px;
+      width:100%;
+      max-width:400px;
+    }
+    .lang-btn{
+      background:var(--card);
+      border:1px solid var(--border);
+      color:var(--text);
+      border-radius:50px;
+      padding:14px 18px;
+      font-size:16px;
+      cursor:pointer;
+      transition:all .2s ease;
+      box-shadow:0 3px 8px rgba(0,0,0,0.2);
+    }
+    .lang-btn:hover{
+      background:#165a41;
+      border-color:var(--accent);
+      transform:translateY(-2px);
+      box-shadow:0 6px 14px rgba(0,0,0,0.25);
+    }
+  </style>
 </head>
 <body>
-  <main id="app">
-    <section id="landing" class="landing">
-      <img src="assets/logo.svg" alt="Te Fiti" class="logo">
-      <h1 class="brand">Te Fiti</h1>
-      <p class="subtitle">Massage & SPA — wellness salon</p>
-    </section>
+  <img src="assets/logo.svg" alt="Te Fiti" class="logo" />
 
-    <section id="viewer" class="viewer hidden" aria-live="polite">
-      <div class="viewer-top">
-        <button id="backBtn" class="btn back" aria-label="назад к языкам">←</button>
-        <h2 id="title" class="title"></h2>
-      </div>
-      <div id="pages" class="pages"></div>
-    </section>
-  </main>
-
-  <nav class="langbar" role="tablist" aria-label="Выбор языка">
-    <button class="lang" data-lang="ky" role="tab">Кыргызча</button>
-    <button class="lang" data-lang="ru" role="tab">Русский</button>
-    <button class="lang" data-lang="en" role="tab">English</button>
-    <button class="lang" data-lang="zh" role="tab">中文</button>
-    <button class="lang" data-lang="ar" role="tab" dir="rtl">العربية</button>
-  </nav>
+  <div class="lang-grid">
+    <button class="lang-btn" data-lang="ky">Кыргызча</button>
+    <button class="lang-btn" data-lang="ru">Русский</button>
+    <button class="lang-btn" data-lang="en">English</button>
+    <button class="lang-btn" data-lang="zh">中文</button>
+    <button class="lang-btn" data-lang="ar" dir="rtl">العربية</button>
+  </div>
 
   <script src="data.js"></script>
   <script src="main.js"></script>
