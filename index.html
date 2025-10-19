@@ -1,73 +1,60 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <link rel="icon" href="assets/logo.svg" />
-  <style>
-    :root {
-      --bg:#0b1f17;
-      --text:#ecf8f2;
-      --card:#123528;
-      --accent:#2fd8a0;
-      --border:rgba(255,255,255,0.1);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      background:var(--bg);
-      color:var(--text);
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:32px 16px;
-    }
-    .logo{
-      width:min(160px,45vw);
-      margin-bottom:40px;
-      filter:drop-shadow(0 4px 12px rgba(0,0,0,0.3));
-    }
-    .lang-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-      gap:16px;
-      width:100%;
-      max-width:400px;
-    }
-    .lang-btn{
-      background:var(--card);
-      border:1px solid var(--border);
-      color:var(--text);
-      border-radius:50px;
-      padding:14px 18px;
-      font-size:16px;
-      cursor:pointer;
-      transition:all .2s ease;
-      box-shadow:0 3px 8px rgba(0,0,0,0.2);
-    }
-    .lang-btn:hover{
-      background:#165a41;
-      border-color:var(--accent);
-      transform:translateY(-2px);
-      box-shadow:0 6px 14px rgba(0,0,0,0.25);
-    }
-  </style>
-</head>
-<body>
-  <img src="assets/logo.svg" alt="Te Fiti" class="logo" />
+// Ожидает data.js с PRICE_PAGES и (по желанию) USE_PDF/PDF_RANGES
+(function(){
+  const landing = document.getElementById('landing');
+  const viewer  = document.getElementById('viewer');
+  const backBtn = document.getElementById('backBtn');
+  const title   = document.getElementById('title');
+  const pagesEl = document.getElementById('pages');
 
-  <div class="lang-grid">
-    <button class="lang-btn" data-lang="ky">Кыргызча</button>
-    <button class="lang-btn" data-lang="ru">Русский</button>
-    <button class="lang-btn" data-lang="en">English</button>
-    <button class="lang-btn" data-lang="zh">中文</button>
-    <button class="lang-btn" data-lang="ar" dir="rtl">العربية</button>
-  </div>
+  // Навешиваем клики на новые кнопки .lang-btn
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => selectLang(btn.dataset.lang));
+  });
 
-  <script src="data.js"></script>
-  <script src="main.js"></script>
-</body>
-</html>
+  function selectLang(lang){
+    const cfg = window.PRICE_PAGES[lang];
+    const usePDF = !!window.USE_PDF;
+
+    document.documentElement.lang = lang;
+    document.body.dir = cfg.rtl ? 'rtl' : 'ltr';
+    title.textContent = `Прайс-лист — ${cfg.label}`;
+
+    // переключаем экраны
+    landing.classList.add('hidden');
+    viewer.classList.remove('hidden');
+
+    // рендерим две страницы вертикально
+    pagesEl.innerHTML = '';
+    if(usePDF){
+      const rng = (window.PDF_RANGES && window.PDF_RANGES[lang]) || {start:1,end:cfg.count||2};
+      for(let i=rng.start;i<=rng.end;i++){
+        const wrap = document.createElement('div'); wrap.className = 'page';
+        const fr = document.createElement('iframe');
+        fr.src = `assets/prices/${lang}.pdf#page=${i}&zoom=page-fit`;
+        wrap.appendChild(fr); pagesEl.appendChild(wrap);
+      }
+    }else{
+      for(let i=1;i<=cfg.count;i++){
+        const wrap = document.createElement('div'); wrap.className = 'page';
+        const img = document.createElement('img');
+        img.loading = 'lazy'; img.decoding = 'async';
+        img.src = `assets/prices/${lang}/${i}.${cfg.ext||'jpg'}`;
+        img.alt = `Прайс ${cfg.label} — стр. ${i}`;
+        wrap.appendChild(img); pagesEl.appendChild(wrap);
+      }
+    }
+
+    try{ localStorage.setItem('tefiti_lang', lang); }catch(e){}
+  }
+
+  backBtn.addEventListener('click', ()=>{
+    viewer.classList.add('hidden');
+    landing.classList.remove('hidden');
+  });
+
+  // автозагрузка последнего выбранного языка
+  try{
+    const saved = localStorage.getItem('tefiti_lang');
+    if(saved && window.PRICE_PAGES[saved]) selectLang(saved);
+  }catch(e){}
+})();
