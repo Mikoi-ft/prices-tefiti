@@ -33,7 +33,7 @@
         const wrap = document.createElement('div');
         wrap.className = 'page';
         const img = document.createElement('img');
-        img.src = `assets/prices/${lang}/${i}.${cfg.ext||'jpg'}`;
+        img.src = `assets/prices/${lang}/${i}.${cfg.ext||'png'}`;
         img.alt = `Прайс ${cfg.label} — стр. ${i}`;
         wrap.appendChild(img);
         pagesEl.appendChild(wrap);
