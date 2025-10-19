@@ -5,7 +5,7 @@ window.PRICE_PAGES = {
   ru: { count: 2, ext: "pdf", label: "Русский" },
   en: { count: 2, ext: "pdf", label: "English" },
   zh: { count: 2, ext: "pdf", label: "中文" },
-  ar: { count: 2, ext: "pdf", label: "العربية", rtl: true }
+  ar: { count: 2, ext: "pdf", label: "العربية" }
 };
 
 // Set to true if you want to use per-language PDFs placed at assets/prices/<lang>.pdf
