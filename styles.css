@@ -1,4 +1,4 @@
-/* Mobile-first */
+/* Mobile-first stacked pages */
 :root{
   --bg:#0b1f17; --text:#ecf8f2; --muted:#b7d0c6; --card:#0f2a20; --accent:#2fd8a0; --border:rgba(255,255,255,.12);
   --safe-bottom: env(safe-area-inset-bottom, 0);
@@ -6,7 +6,7 @@
 }
 *{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0; background:var(--bg); color:var(--text); font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;}
+body{margin:0; background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;}
 .hidden{display:none !important}
 
 .landing{
@@ -20,18 +20,16 @@ body{margin:0; background:var(--bg); color:var(--text); font-family:system-ui, -
 .subtitle{margin:0; opacity:.75}
 
 .viewer{min-height:calc(100vh - 68px - var(--safe-bottom)); display:flex; flex-direction:column; padding-top:var(--safe-top)}
-.viewer-top{display:flex; align-items:center; gap:8px; padding:12px 12px; border-bottom:1px solid var(--border); background:rgba(0,0,0,.12); backdrop-filter:blur(6px); position:sticky; top:0; z-index:10}
+.viewer-top{display:flex; align-items:center; gap:12px; padding:12px 12px; border-bottom:1px solid var(--border); background:rgba(0,0,0,.12); backdrop-filter:blur(6px); position:sticky; top:0; z-index:10}
 .title{font-size:16px; margin:0}
-.indicator{font-variant-numeric:tabular-nums; opacity:.85}
-.title-wrap{display:flex; align-items:baseline; gap:10px}
-.btn{appearance:none; border:1px solid var(--border); background:#0e2a20; color:var(--text); border-radius:12px; padding:8px 12px}
-.btn.nav{position:absolute; top:50%; transform:translateY(-50%); padding:10px 12px; border-radius:999px; opacity:.9}
-.btn.nav.left{left:8px}
-.btn.nav.right{right:8px}
-.btn:disabled{opacity:.4}
 
-.canvas-wrap{position:relative; flex:1; display:flex; align-items:center; justify-content:center; overflow:hidden; background:#0e2a20}
-#pageImage{max-width:100%; max-height:100%; width:100%; height:auto; object-fit:contain;}
+.pages{
+  width:100%; max-width:900px; margin:0 auto; padding:8px 0 90px;
+  display:flex; flex-direction:column; gap:8px;
+}
+.page{position:relative; width:100%; background:#0e2a20; border:1px solid var(--border); border-radius:12px; overflow:hidden}
+.page img{width:100%; height:auto; display:block}
+.page iframe{width:100%; height:calc(100vh - 150px); border:0; display:block}
 
 .langbar{
   position:fixed; left:0; right:0; bottom:0; padding:8px 10px calc(10px + var(--safe-bottom)) 10px;
