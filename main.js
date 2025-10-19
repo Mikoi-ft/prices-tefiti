@@ -1,4 +1,4 @@
-// Ожидает data.js с PRICE_PAGES и (по желанию) USE_PDF/PDF_RANGES
+// Ожидает data.js с PRICE_PAGES и (опционально) USE_PDF/PDF_RANGES
 (function(){
   const landing = document.getElementById('landing');
   const viewer  = document.getElementById('viewer');
@@ -6,7 +6,9 @@
   const title   = document.getElementById('title');
   const pagesEl = document.getElementById('pages');
 
-  // Навешиваем клики на новые кнопки .lang-btn
+  // ВКЛ/ВЫКЛ автозапуска (по умолчанию ВЫКЛ)
+  const AUTO_OPEN_LAST = false;
+
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => selectLang(btn.dataset.lang));
   });
@@ -17,13 +19,13 @@
 
     document.documentElement.lang = lang;
     document.body.dir = cfg.rtl ? 'rtl' : 'ltr';
-    title.textContent = `Прайс-лист — ${cfg.label}`;
+    title.textContent = `${window.UI[lang].priceTitle} — ${cfg.label}`;
 
-    // переключаем экраны
+
     landing.classList.add('hidden');
     viewer.classList.remove('hidden');
 
-    // рендерим две страницы вертикально
+    // отрисовать страницы вертикально
     pagesEl.innerHTML = '';
     if(usePDF){
       const rng = (window.PDF_RANGES && window.PDF_RANGES[lang]) || {start:1,end:cfg.count||2};
@@ -44,7 +46,8 @@
       }
     }
 
-    try{ localStorage.setItem('tefiti_lang', lang); }catch(e){}
+    // можно хранить выбор, но не авто-открывать при следующем заходе
+    try { localStorage.setItem('tefiti_lang', lang); } catch(e){}
   }
 
   backBtn.addEventListener('click', ()=>{
@@ -52,9 +55,19 @@
     landing.classList.remove('hidden');
   });
 
-  // автозагрузка последнего выбранного языка
-  try{
-    const saved = localStorage.getItem('tefiti_lang');
-    if(saved && window.PRICE_PAGES[saved]) selectLang(saved);
-  }catch(e){}
+  // --- ВАЖНО: Больше не авто-открываем сохранённый язык ---
+  // Если когда-нибудь захочешь включить автозапуск — поставь AUTO_OPEN_LAST = true
+  if (AUTO_OPEN_LAST) {
+    try {
+      const saved = localStorage.getItem('tefiti_lang');
+      if(saved && window.PRICE_PAGES[saved]) selectLang(saved);
+    } catch(e){}
+  }
+
+  // Дополнительно: поддержка deeplink ?lang=ru (если нужно)
+  const params = new URLSearchParams(location.search);
+  const deeplinkLang = params.get('lang');
+  if (deeplinkLang && window.PRICE_PAGES[deeplinkLang]) {
+    selectLang(deeplinkLang);
+  }
 })();

@@ -17,3 +17,10 @@ window.PDF_RANGES = {
   zh: { start:1, end:2 },
   ar: { start:1, end:2 },
 };
+window.UI = {
+  ky: { priceTitle: "Баалар тизмеси", back: "Тилди тандоо" },
+  ru: { priceTitle: "Прайс-лист",      back: "Назад к языкам" },
+  en: { priceTitle: "Price List",       back: "Back to languages" },
+  zh: { priceTitle: "价目表",            back: "返回语言选择" },
+  ar: { priceTitle: "قائمة الأسعار",     back: "الرجوع لاختيار اللغة" }
+};
