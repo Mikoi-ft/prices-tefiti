@@ -1,60 +1,35 @@
-// Ожидает data.js с PRICE_PAGES и (по желанию) USE_PDF/PDF_RANGES
-(function(){
-  const landing = document.getElementById('landing');
-  const viewer  = document.getElementById('viewer');
-  const backBtn = document.getElementById('backBtn');
-  const title   = document.getElementById('title');
-  const pagesEl = document.getElementById('pages');
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Te Fiti — Прайс-лист</title>
+  <link rel="icon" href="assets/logo.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Экран выбора языка -->
+  <main id="landing" class="landing">
+    <img src="assets/logo.svg" alt="Te Fiti" class="logo" />
+    <div class="lang-row" aria-label="Выбор языка">
+      <button class="lang-btn" data-lang="ky">Кыргызча</button>
+      <button class="lang-btn" data-lang="ru">Русский</button>
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="zh">中文</button>
+      <button class="lang-btn" data-lang="ar" dir="rtl">العربية</button>
+    </div>
+  </main>
 
-  // Навешиваем клики на новые кнопки .lang-btn
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => selectLang(btn.dataset.lang));
-  });
+  <!-- Экран просмотра (две страницы одна под другой) -->
+  <section id="viewer" class="viewer hidden" aria-live="polite">
+    <div class="viewer-top">
+      <button id="backBtn" class="btn back" aria-label="назад к языкам">←</button>
+      <h2 id="title" class="title"></h2>
+    </div>
+    <div id="pages" class="pages"></div>
+  </section>
 
-  function selectLang(lang){
-    const cfg = window.PRICE_PAGES[lang];
-    const usePDF = !!window.USE_PDF;
-
-    document.documentElement.lang = lang;
-    document.body.dir = cfg.rtl ? 'rtl' : 'ltr';
-    title.textContent = `Прайс-лист — ${cfg.label}`;
-
-    // переключаем экраны
-    landing.classList.add('hidden');
-    viewer.classList.remove('hidden');
-
-    // рендерим две страницы вертикально
-    pagesEl.innerHTML = '';
-    if(usePDF){
-      const rng = (window.PDF_RANGES && window.PDF_RANGES[lang]) || {start:1,end:cfg.count||2};
-      for(let i=rng.start;i<=rng.end;i++){
-        const wrap = document.createElement('div'); wrap.className = 'page';
-        const fr = document.createElement('iframe');
-        fr.src = `assets/prices/${lang}.pdf#page=${i}&zoom=page-fit`;
-        wrap.appendChild(fr); pagesEl.appendChild(wrap);
-      }
-    }else{
-      for(let i=1;i<=cfg.count;i++){
-        const wrap = document.createElement('div'); wrap.className = 'page';
-        const img = document.createElement('img');
-        img.loading = 'lazy'; img.decoding = 'async';
-        img.src = `assets/prices/${lang}/${i}.${cfg.ext||'jpg'}`;
-        img.alt = `Прайс ${cfg.label} — стр. ${i}`;
-        wrap.appendChild(img); pagesEl.appendChild(wrap);
-      }
-    }
-
-    try{ localStorage.setItem('tefiti_lang', lang); }catch(e){}
-  }
-
-  backBtn.addEventListener('click', ()=>{
-    viewer.classList.add('hidden');
-    landing.classList.remove('hidden');
-  });
-
-  // автозагрузка последнего выбранного языка
-  try{
-    const saved = localStorage.getItem('tefiti_lang');
-    if(saved && window.PRICE_PAGES[saved]) selectLang(saved);
-  }catch(e){}
-})();
+  <script src="data.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

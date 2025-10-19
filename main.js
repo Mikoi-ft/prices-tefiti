@@ -1,42 +1,46 @@
+// Ожидает data.js с PRICE_PAGES и (по желанию) USE_PDF/PDF_RANGES
 (function(){
   const landing = document.getElementById('landing');
   const viewer  = document.getElementById('viewer');
   const backBtn = document.getElementById('backBtn');
   const title   = document.getElementById('title');
   const pagesEl = document.getElementById('pages');
-  const langBtns= document.querySelectorAll('.langbar .lang');
+
+  // Навешиваем клики на новые кнопки .lang-btn
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => selectLang(btn.dataset.lang));
+  });
 
   function selectLang(lang){
     const cfg = window.PRICE_PAGES[lang];
     const usePDF = !!window.USE_PDF;
+
     document.documentElement.lang = lang;
     document.body.dir = cfg.rtl ? 'rtl' : 'ltr';
-
     title.textContent = `Прайс-лист — ${cfg.label}`;
+
+    // переключаем экраны
     landing.classList.add('hidden');
     viewer.classList.remove('hidden');
 
-    // Render pages stacked
+    // рендерим две страницы вертикально
     pagesEl.innerHTML = '';
     if(usePDF){
       const rng = (window.PDF_RANGES && window.PDF_RANGES[lang]) || {start:1,end:cfg.count||2};
       for(let i=rng.start;i<=rng.end;i++){
-        const wrap = document.createElement('div');
-        wrap.className = 'page';
+        const wrap = document.createElement('div'); wrap.className = 'page';
         const fr = document.createElement('iframe');
         fr.src = `assets/prices/${lang}.pdf#page=${i}&zoom=page-fit`;
-        wrap.appendChild(fr);
-        pagesEl.appendChild(wrap);
+        wrap.appendChild(fr); pagesEl.appendChild(wrap);
       }
     }else{
       for(let i=1;i<=cfg.count;i++){
-        const wrap = document.createElement('div');
-        wrap.className = 'page';
+        const wrap = document.createElement('div'); wrap.className = 'page';
         const img = document.createElement('img');
+        img.loading = 'lazy'; img.decoding = 'async';
         img.src = `assets/prices/${lang}/${i}.${cfg.ext||'avif'}`;
         img.alt = `Прайс ${cfg.label} — стр. ${i}`;
-        wrap.appendChild(img);
-        pagesEl.appendChild(wrap);
+        wrap.appendChild(img); pagesEl.appendChild(wrap);
       }
     }
 
@@ -48,8 +52,7 @@
     landing.classList.remove('hidden');
   });
 
-  langBtns.forEach(b=> b.addEventListener('click', ()=> selectLang(b.dataset.lang)));
-
+  // автозагрузка последнего выбранного языка
   try{
     const saved = localStorage.getItem('tefiti_lang');
     if(saved && window.PRICE_PAGES[saved]) selectLang(saved);
