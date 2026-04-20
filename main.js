@@ -40,7 +40,7 @@
         const wrap = document.createElement('div'); wrap.className = 'page';
         const img = document.createElement('img');
         img.loading = 'lazy'; img.decoding = 'async';
-        img.src = `assets/prices/${lang}/${i}.${cfg.ext||'avif'}`;
+        img.src = `assets/prices/${lang}/${i}.${cfg.ext||'jpg'}`;
         img.alt = `Прайс ${cfg.label} — стр. ${i}`;
         wrap.appendChild(img); pagesEl.appendChild(wrap);
       }
